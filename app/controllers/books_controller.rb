@@ -10,11 +10,8 @@ class BooksController < ApplicationController
     else
       @books = Book.all
       render :index
-
     end
-
   end
-
 
   def index
     @book = Book.new
@@ -30,9 +27,13 @@ class BooksController < ApplicationController
   end
 
   def update
-    book = Book.find(params[:id])
-    book.update(book_params)
-    redirect_to book_path(book.id), notice: "Book was successfully edited!"
+    @book = Book.find(params[:id])
+    if @book.update(book_params)
+      redirect_to book_path(@book.id), notice: "Book was successfully edited!"
+    else
+      render :edit
+    end
+
   end
 
   def destroy
